@@ -5,27 +5,22 @@ import Pattern from "./pages/recusion/Pattern";
 import JsonPages from "./pages/json/JsonPages";
 import Task from "./pages/recusion/Task";
 import Pow from "./pages/pow/Pow";
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
 import { Firebase, FirebaseContext } from "./helpers/firebase";
 
-const { FIREBASE_SENDER_ID } = "429364986528";
-
-const serviceWorkerRegister = async () => {
-  const register = await navigator.serviceWorker.register(
-    `/firebase-messaging-sw.js?messagingSenderId=${FIREBASE_SENDER_ID}`
-  );
-  return new Firebase(register);
-};
-
 function App() {
   return (
-    <FirebaseContext.Provider value={serviceWorkerRegister()}>
+    <FirebaseContext.Provider value={new Firebase()}>
       <Router>
         <Switch>
           <Route path="/pattern" exact component={Pattern} />
           <Route path="/json" exact component={JsonPages} />
           <Route path="/task" exact component={Task} />
           <Route path="/pow" exact component={Pow} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={Register} />
         </Switch>
       </Router>
     </FirebaseContext.Provider>
