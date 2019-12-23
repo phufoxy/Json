@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Pattern from "./pages/recusion/Pattern";
 import JsonPages from "./pages/json/JsonPages";
 import Task from "./pages/recusion/Task";
@@ -21,6 +21,7 @@ function App() {
           <Route path="/pow" exact component={Pow} />
           <Route path="/login" exact component={Login} />
           <Route path="/register" exact component={Register} />
+          <Redirect exact from="/" to="login" />
         </Switch>
       </Router>
     </FirebaseContext.Provider>
