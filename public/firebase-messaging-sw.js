@@ -1,21 +1,39 @@
-importScripts('https://www.gstatic.com/firebasejs/5.6.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/5.6.0/firebase-messaging.js');
-var messagingSenderId = get_sw_url_parameters( 'messagingSenderId' );
+// Give the service worker access to Firebase Messaging.
+// Note that you can only use Firebase Messaging here, other Firebase libraries
+// are not available in the service worker.
+importScripts("https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/7.6.0/firebase-messaging.js");
 
-function get_sw_url_parameters( param ) {
-    var vars = {};
-    self.location.href.replace( self.location.hash, '' ).replace(
-        /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-        function( m, key, value ) { // callback
-            vars[key] = value !== undefined ? value : '';
-        }
-    );
-    if( param ) {
-        return vars[param] ? vars[param] : null;
-    }
-    return vars;
-}
+// Initialize the Firebase app in the service worker by passing in the
+// messagingSenderId.
 firebase.initializeApp({
-  'messagingSenderId': messagingSenderId || '785381922472'
+  apiKey: "AIzaSyBFWmEi2raK-sJ3v9ZCQOpBDB1smOgDW98",
+  authDomain: "gshtdt-5114e.firebaseapp.com",
+  databaseURL: "https://gshtdt-5114e.firebaseio.com",
+  projectId: "gshtdt-5114e",
+  storageBucket: "gshtdt-5114e.appspot.com",
+  messagingSenderId: "429364986528",
+  appId: "1:429364986528:web:44f8155dab2ae99c153fc5",
+  measurementId: "G-7L360QNSGW"
 });
+
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
 const messaging = firebase.messaging();
+messaging.setBackgroundMessageHandler(function(payload) {
+  console.log(
+    "[firebase-messaging-sw.js] Received background message ",
+    payload
+  );
+  // Customize notification here
+  const notificationTitle = "Background Message Title";
+  const notificationOptions = {
+    body: "Background Message body.",
+    icon: "/firebase-logo.png"
+  };
+
+  return self.registration.showNotification(
+    notificationTitle,
+    notificationOptions
+  );
+});

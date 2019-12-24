@@ -17,8 +17,10 @@ const configFirebase = {
 
 class Firebase {
   constructor() {
-    firebase.initializeApp(configFirebase);
-    this.messaging = firebase.messaging();
+    if(!firebase.apps.length){
+      firebase.initializeApp(configFirebase);
+      this.messaging = firebase.messaging();
+    }
   }
 
   requestToken = (callback) => {
